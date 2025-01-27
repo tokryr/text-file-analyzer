@@ -10,10 +10,43 @@ namespace TextFileAnalyzer
         {
             while (true)
             {
-                Console.WriteLine("Enter the path of the text file to analyze:");
+                Console.WriteLine("Enter the path of the text file to analyze or press Enter to exit:");
                 string filePath = Console.ReadLine();
 
-                string[] lines = File.ReadAllLines(filePath);
+                // If user just presses Enter with no input, break out
+                if (string.IsNullOrWhiteSpace(filePath))
+                {
+                    Console.WriteLine("No file path entered. Exiting...");
+                    break;
+                }
+
+                // Attempt to read the file lines
+                string[] lines;
+                try
+                {
+                    // 1. Check if file exists first
+                    if (!File.Exists(filePath))
+                    {
+                        Console.WriteLine($"Error: File '{filePath}' does not exist. Please try again.\n");
+                        continue;
+                    }
+                    lines = File.ReadAllLines(filePath);
+                }
+                catch (UnauthorizedAccessException uae)
+                {
+                    Console.WriteLine($"Error: Access denied. {uae.Message}\n");
+                    continue;
+                }
+                catch (IOException ioex)
+                {
+                    Console.WriteLine($"I/O Error reading file: {ioex.Message}\n");
+                    continue;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Unexpected error: {ex.Message}\n");
+                    continue;
+                }
 
                 AnalysisResult analysisResult = TextAnalyzer.AnalyzeText(lines);
 

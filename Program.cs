@@ -8,14 +8,27 @@ namespace TextFileAnalyzer
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Enter the path of the text file to analyze:");
-            string filePath = Console.ReadLine();
+            while (true)
+            {
+                Console.WriteLine("Enter the path of the text file to analyze:");
+                string filePath = Console.ReadLine();
 
-            string[] lines = File.ReadAllLines(filePath);
+                string[] lines = File.ReadAllLines(filePath);
 
-            AnalysisResult analysisResult = TextAnalyzer.AnalyzeText(lines);
+                AnalysisResult analysisResult = TextAnalyzer.AnalyzeText(lines);
 
-            DisplayResults(analysisResult);
+                DisplayResults(analysisResult);
+
+                Console.WriteLine("\nDo you want to analyze another file? (y/n)");
+                string answer = Console.ReadLine().Trim().ToLower();
+
+                if (answer != "y")
+                {
+                    // If they type anything other than "y", end the loop
+                    break;
+                }
+            }
+            Console.WriteLine("Exiting the program. Have a great day!");
         }
 
         private static void DisplayResults(AnalysisResult result)

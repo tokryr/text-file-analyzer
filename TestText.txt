@@ -1,0 +1,2 @@
+This is a test file. The purpose is to test the word analyzer.
+This text should have a total of 25 words and 123 characters.
